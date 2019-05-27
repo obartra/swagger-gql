@@ -1,25 +1,20 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import findByStatus from "./queries/findByStatus";
+import { Query } from "react-apollo";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Query query={findByStatus} variables={{ status: "available" }}>
+      {({ loading, data }: { loading: boolean; data: {} }) => (
+        <div className="App">
+          {loading && <header className="App-header">Loading...</header>}
+          <pre>
+            <code>{JSON.stringify(data, undefined, 2)}</code>
+          </pre>
+        </div>
+      )}
+    </Query>
   );
 };
 
